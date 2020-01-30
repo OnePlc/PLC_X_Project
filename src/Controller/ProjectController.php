@@ -62,6 +62,12 @@ class ProjectController extends CoreController {
         # Set Layout based on users theme
         $this->setThemeBasedLayout('project');
 
+        # Check license
+        if(!$this->checkLicense('project')) {
+            $this->flashMessenger()->addErrorMessage('You have no active license for project');
+            $this->redirect()->toRoute('home');
+        }
+
         # Add Buttons for breadcrumb
         $this->setViewButtons('project-index');
 
@@ -94,6 +100,12 @@ class ProjectController extends CoreController {
     public function addAction() {
         # Set Layout based on users theme
         $this->setThemeBasedLayout('project');
+
+        # Check license
+        if(!$this->checkLicense('project')) {
+            $this->flashMessenger()->addErrorMessage('You have no active license for project');
+            $this->redirect()->toRoute('home');
+        }
 
         # Get Request to decide wether to save or display form
         $oRequest = $this->getRequest();
@@ -149,6 +161,12 @@ class ProjectController extends CoreController {
         # Set Layout based on users theme
         $this->setThemeBasedLayout('project');
 
+        # Check license
+        if(!$this->checkLicense('project')) {
+            $this->flashMessenger()->addErrorMessage('You have no active license for project');
+            $this->redirect()->toRoute('home');
+        }
+
         # Get Request to decide wether to save or display form
         $oRequest = $this->getRequest();
 
@@ -199,8 +217,11 @@ class ProjectController extends CoreController {
 
         $this->layout('layout/json');
 
+        # Parse Form Data
+        $aFormData = $this->parseFormData($_REQUEST);
+
         # Save Multiselect
-        $this->updateMultiSelectFields($_REQUEST,$oProject,'project-single');
+        $this->updateMultiSelectFields($aFormData,$oProject,'project-single');
 
         # Log Performance in DB
         $aMeasureEnd = getrusage();
@@ -220,6 +241,12 @@ class ProjectController extends CoreController {
     public function viewAction() {
         # Set Layout based on users theme
         $this->setThemeBasedLayout('project');
+
+        # Check license
+        if(!$this->checkLicense('project')) {
+            $this->flashMessenger()->addErrorMessage('You have no active license for project');
+            $this->redirect()->toRoute('home');
+        }
 
         # Get Project ID from URL
         $iProjectID = $this->params()->fromRoute('id', 0);
