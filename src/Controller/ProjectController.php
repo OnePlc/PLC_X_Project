@@ -17,20 +17,20 @@ declare(strict_types=1);
 
 namespace OnePlace\Project\Controller;
 
-use Application\Controller\CoreController;
+use Application\Controller\CoreEntityController;
 use Application\Model\CoreEntityModel;
 use OnePlace\Project\Model\Project;
 use OnePlace\Project\Model\ProjectTable;
 use Laminas\View\Model\ViewModel;
 use Laminas\Db\Adapter\AdapterInterface;
 
-class ProjectController extends CoreController {
+class ProjectController extends CoreEntityController {
     /**
      * Project Table Object
      *
      * @since 1.0.0
      */
-    private $oTableGateway;
+    protected $oTableGateway;
 
     /**
      * ProjectController constructor.
@@ -59,36 +59,10 @@ class ProjectController extends CoreController {
      * @return ViewModel - View Object with Data from Controller
      */
     public function indexAction() {
-        # Set Layout based on users theme
-        $this->setThemeBasedLayout('project');
 
-        # Check license
-        if(!$this->checkLicense('project')) {
-            $this->flashMessenger()->addErrorMessage('You have no active license for project');
-            $this->redirect()->toRoute('home');
-        }
-
-        # Add Buttons for breadcrumb
-        $this->setViewButtons('project-index');
-
-        # Set Table Rows for Index
-        $this->setIndexColumns('project-index');
-
-        # Get Paginator
-        $oPaginator = $this->oTableGateway->fetchAll(true);
-        $iPage = (int) $this->params()->fromQuery('page', 1);
-        $iPage = ($iPage < 1) ? 1 : $iPage;
-        $oPaginator->setCurrentPageNumber($iPage);
-        $oPaginator->setItemCountPerPage(3);
-
-        # Log Performance in DB
-        $aMeasureEnd = getrusage();
-        $this->logPerfomance('project-index',$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"utime"),$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"stime"));
-
-        return new ViewModel([
-            'sTableName'=>'project-index',
-            'aItems'=>$oPaginator,
-        ]);
+        # You can just use the default function and customize it via hooks
+        # or replace the entire function if you need more customization
+        return $this->generateIndexView('project');
     }
 
     /**
@@ -98,57 +72,17 @@ class ProjectController extends CoreController {
      * @return ViewModel - View Object with Data from Controller
      */
     public function addAction() {
-        # Set Layout based on users theme
-        $this->setThemeBasedLayout('project');
-
-        # Check license
-        if(!$this->checkLicense('project')) {
-            $this->flashMessenger()->addErrorMessage('You have no active license for project');
-            $this->redirect()->toRoute('home');
-        }
-
-        # Get Request to decide wether to save or display form
-        $oRequest = $this->getRequest();
-
-        # Display Add Form
-        if(!$oRequest->isPost()) {
-            # Add Buttons for breadcrumb
-            $this->setViewButtons('project-single');
-
-            # Load Tabs for View Form
-            $this->setViewTabs($this->sSingleForm);
-
-            # Load Fields for View Form
-            $this->setFormFields($this->sSingleForm);
-
-            # Log Performance in DB
-            $aMeasureEnd = getrusage();
-            $this->logPerfomance('project-add',$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"utime"),$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"stime"));
-
-            return new ViewModel([
-                'sFormName' => $this->sSingleForm,
-            ]);
-        }
-
-        # Get and validate Form Data
-        $aFormData = $this->parseFormData($_REQUEST);
-
-        # Save Add Form
-        $oProject = new Project($this->oDbAdapter);
-        $oProject->exchangeArray($aFormData);
-        $iProjectID = $this->oTableGateway->saveSingle($oProject);
-        $oProject = $this->oTableGateway->getSingle($iProjectID);
-
-        # Save Multiselect
-        $this->updateMultiSelectFields($_REQUEST,$oProject,'project-single');
-
-        # Log Performance in DB
-        $aMeasureEnd = getrusage();
-        $this->logPerfomance('project-save',$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"utime"),$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"stime"));
-
-        # Display Success Message and View New Project
-        $this->flashMessenger()->addSuccessMessage('Project successfully created');
-        return $this->redirect()->toRoute('project',['action'=>'view','id'=>$iProjectID]);
+        /**
+         * You can just use the default function and customize it via hooks
+         * or replace the entire function if you need more customization
+         *
+         * Hooks available:
+         *
+         * project-add-before (before show add form)
+         * project-add-before-save (before save)
+         * project-add-after-save (after save)
+         */
+        return $this->generateAddView('project');
     }
 
     /**
@@ -158,78 +92,17 @@ class ProjectController extends CoreController {
      * @return ViewModel - View Object with Data from Controller
      */
     public function editAction() {
-        # Set Layout based on users theme
-        $this->setThemeBasedLayout('project');
-
-        # Check license
-        if(!$this->checkLicense('project')) {
-            $this->flashMessenger()->addErrorMessage('You have no active license for project');
-            $this->redirect()->toRoute('home');
-        }
-
-        # Get Request to decide wether to save or display form
-        $oRequest = $this->getRequest();
-
-        # Display Edit Form
-        if(!$oRequest->isPost()) {
-
-            # Get Project ID from URL
-            $iProjectID = $this->params()->fromRoute('id', 0);
-
-            # Try to get Project
-            try {
-                $oProject = $this->oTableGateway->getSingle($iProjectID);
-            } catch (\RuntimeException $e) {
-                echo 'Project Not found';
-                return false;
-            }
-
-            # Attach Project Entity to Layout
-            $this->setViewEntity($oProject);
-
-            # Add Buttons for breadcrumb
-            $this->setViewButtons('project-single');
-
-            # Load Tabs for View Form
-            $this->setViewTabs($this->sSingleForm);
-
-            # Load Fields for View Form
-            $this->setFormFields($this->sSingleForm);
-
-            # Log Performance in DB
-            $aMeasureEnd = getrusage();
-            $this->logPerfomance('project-edit',$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"utime"),$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"stime"));
-
-            return new ViewModel([
-                'sFormName' => $this->sSingleForm,
-                'oProject' => $oProject,
-            ]);
-        }
-
-        $iProjectID = $oRequest->getPost('Item_ID');
-        $oProject = $this->oTableGateway->getSingle($iProjectID);
-
-        # Update Project with Form Data
-        $oProject = $this->attachFormData($_REQUEST,$oProject);
-
-        # Save Project
-        $iProjectID = $this->oTableGateway->saveSingle($oProject);
-
-        $this->layout('layout/json');
-
-        # Parse Form Data
-        $aFormData = $this->parseFormData($_REQUEST);
-
-        # Save Multiselect
-        $this->updateMultiSelectFields($aFormData,$oProject,'project-single');
-
-        # Log Performance in DB
-        $aMeasureEnd = getrusage();
-        $this->logPerfomance('project-save',$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"utime"),$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"stime"));
-
-        # Display Success Message and View New User
-        $this->flashMessenger()->addSuccessMessage('Project successfully saved');
-        return $this->redirect()->toRoute('project',['action'=>'view','id'=>$iProjectID]);
+        /**
+         * You can just use the default function and customize it via hooks
+         * or replace the entire function if you need more customization
+         *
+         * Hooks available:
+         *
+         * project-edit-before (before show edit form)
+         * project-edit-before-save (before save)
+         * project-edit-after-save (after save)
+         */
+        return $this->generateEditView('project');
     }
 
     /**
@@ -239,45 +112,14 @@ class ProjectController extends CoreController {
      * @return ViewModel - View Object with Data from Controller
      */
     public function viewAction() {
-        # Set Layout based on users theme
-        $this->setThemeBasedLayout('project');
-
-        # Check license
-        if(!$this->checkLicense('project')) {
-            $this->flashMessenger()->addErrorMessage('You have no active license for project');
-            $this->redirect()->toRoute('home');
-        }
-
-        # Get Project ID from URL
-        $iProjectID = $this->params()->fromRoute('id', 0);
-
-        # Try to get Project
-        try {
-            $oProject = $this->oTableGateway->getSingle($iProjectID);
-        } catch (\RuntimeException $e) {
-            echo 'Project Not found';
-            return false;
-        }
-
-        # Attach Project Entity to Layout
-        $this->setViewEntity($oProject);
-
-        # Add Buttons for breadcrumb
-        $this->setViewButtons('project-view');
-
-        # Load Tabs for View Form
-        $this->setViewTabs($this->sSingleForm);
-
-        # Load Fields for View Form
-        $this->setFormFields($this->sSingleForm);
-
-        # Log Performance in DB
-        $aMeasureEnd = getrusage();
-        $this->logPerfomance('project-view',$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"utime"),$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"stime"));
-
-        return new ViewModel([
-            'sFormName'=>$this->sSingleForm,
-            'oProject'=>$oProject,
-        ]);
+        /**
+         * You can just use the default function and customize it via hooks
+         * or replace the entire function if you need more customization
+         *
+         * Hooks available:
+         *
+         * project-view-before
+         */
+        return $this->generateViewView('project');
     }
 }

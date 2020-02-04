@@ -24,7 +24,9 @@ INSERT INTO `permission` (`permission_key`, `module`, `label`, `nav_label`, `nav
 ('edit', 'OnePlace\\Project\\Controller\\ProjectController', 'Edit', '', '', 0),
 ('index', 'OnePlace\\Project\\Controller\\ProjectController', 'Index', 'Projects', '/project', 1),
 ('list', 'OnePlace\\Project\\Controller\\ApiController', 'List', '', '', 1),
-('view', 'OnePlace\\Project\\Controller\\ProjectController', 'View', '', '', 0);
+('view', 'OnePlace\\Project\\Controller\\ProjectController', 'View', '', '', 0),
+('dump', 'OnePlace\\Project\\Controller\\ExportController', 'Excel Dump', '', '', 0),
+('index', 'OnePlace\\Project\\Controller\\SearchController', 'Search', '', '', 0);
 
 --
 -- Form
@@ -49,12 +51,16 @@ INSERT INTO `core_form_tab` (`Tab_ID`, `form`, `title`, `subtitle`, `icon`, `cou
 INSERT INTO `core_form_button` (`Button_ID`, `label`, `icon`, `title`, `href`, `class`, `append`, `form`, `mode`, `filter_check`, `filter_value`) VALUES
 (NULL, 'Save Project', 'fas fa-save', 'Save Project', '#', 'primary saveForm', '', 'project-single', 'link', '', ''),
 (NULL, 'Edit Project', 'fas fa-edit', 'Edit Project', '/project/edit/##ID##', 'primary', '', 'project-view', 'link', '', ''),
-(NULL, 'Add Project', 'fas fa-plus', 'Add Project', '/project/add', 'primary', '', 'project-index', 'link', '', '');
+(NULL, 'Add Project', 'fas fa-plus', 'Add Project', '/project/add', 'primary', '', 'project-index', 'link', '', ''),
+(NULL, 'Export Projects', 'fas fa-file-excel', 'Export Projects', '/project/export', 'primary', '', 'project-index', 'link', '', ''),
+(NULL, 'Find Projects', 'fas fa-searh', 'Find Projects', '/project/search', 'primary', '', 'project-index', 'link', '', ''),
+(NULL, 'Export Projects', 'fas fa-file-excel', 'Export Projects', '#', 'primary initExcelDump', '', 'project-search', 'link', '', ''),
+(NULL, 'New Search', 'fas fa-searh', 'New Search', '/project/search', 'primary', '', 'project-search', 'link', '', '');
 
 --
 -- Fields
 --
-INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES
+INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_list`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES
 (NULL, 'text', 'Name', 'label', 'project-base', 'project-single', 'col-md-3', '/project/view/##ID##', '', 0, 1, 0, '', '', '');
 
 --
@@ -63,5 +69,13 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 INSERT INTO `core_widget` (`Widget_ID`, `widget_name`, `label`, `permission`) VALUES
 (NULL, 'project_dailystats', 'Project - Daily Stats', 'index-Project\\Controller\\ProjectController'),
 (NULL, 'project_taginfo', 'Project - Tag Info', 'index-Project\\Controller\\ProjectController');
+
+--
+-- User XP Activity
+--
+INSERT INTO `user_xp_activity` (`Activity_ID`, `xp_key`, `label`, `xp_base`) VALUES
+(NULL, 'project-add', 'Add New Project', '50'),
+(NULL, 'project-edit', 'Edit Project', '5'),
+(NULL, 'project-export', 'Edit Project', '5');
 
 COMMIT;

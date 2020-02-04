@@ -52,6 +52,48 @@ return [
                     ],
                 ],
             ],
+            'project-export' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/project/export[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\ExportController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+            'project-search' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/project/search[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\SearchController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+            'project-plugin' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/project/plugin[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\PluginController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
         ],
     ],
 
