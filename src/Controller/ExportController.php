@@ -10,7 +10,7 @@
  * @copyright (C) 2020  Verein onePlace <admin@1plc.ch>
  * @license https://opensource.org/licenses/BSD-3-Clause
  * @version 1.0.0
- * @since 1.0.1
+ * @since 1.0.4
  */
 
 namespace OnePlace\Project\Controller;
@@ -41,7 +41,7 @@ class ExportController extends CoreExportController
      * Dump Projects to excel file
      *
      * @return ViewModel
-     * @since 1.0.1
+     * @since 1.0.4
      */
     public function dumpAction() {
         $this->layout('layout/json');

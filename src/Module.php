@@ -9,7 +9,7 @@
  * @author Verein onePlace
  * @copyright (C) 2020  Verein onePlace <admin@1plc.ch>
  * @license https://opensource.org/licenses/BSD-3-Clause
- * @version 1.0.1
+ * @version 1.0.4
  * @since 1.0.0
  */
 
@@ -24,15 +24,14 @@ use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Container;
 use Application\Controller\CoreEntityController;
-use OnePlace\Project\Controller\PluginController;
 
 class Module {
     /**
      * Module Version
      *
-     * @since 1.0.1
+     * @since 1.0.0
      */
-    const VERSION = '1.0.3';
+    const VERSION = '1.0.4';
 
     /**
      * Load module config file
@@ -71,21 +70,10 @@ class Module {
     public function getControllerConfig() : array {
         return [
             'factories' => [
-                # Plugin Example Controller
-                Controller\PluginController::class => function($container) {
-                    $oDbAdapter = $container->get(AdapterInterface::class);
-                    return new Controller\PluginController(
-                        $oDbAdapter,
-                        $container->get(Model\ProjectTable::class),
-                        $container
-                    );
-                },
                 # Project Main Controller
                 Controller\ProjectController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);
                     $tableGateway = $container->get(Model\ProjectTable::class);
-                    # hook plugin
-                    CoreEntityController::addHook('project-add-before',(object)['sFunction'=>'testFunction','oItem'=>new PluginController($oDbAdapter,$tableGateway,$container)]);
                     return new Controller\ProjectController(
                         $oDbAdapter,
                         $container->get(Model\ProjectTable::class),
@@ -114,6 +102,15 @@ class Module {
                 Controller\SearchController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);
                     return new Controller\SearchController(
+                        $oDbAdapter,
+                        $container->get(Model\ProjectTable::class),
+                        $container
+                    );
+                },
+                # Installer
+                Controller\InstallController::class => function($container) {
+                    $oDbAdapter = $container->get(AdapterInterface::class);
+                    return new Controller\InstallController(
                         $oDbAdapter,
                         $container->get(Model\ProjectTable::class),
                         $container

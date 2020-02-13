@@ -4,5 +4,5 @@ if(isset($aPartialExtraData)) {
     $aPartialData['aPartialExtraData'] = $aPartialExtraData;
 }
 ?>
-<?= $this->partial('partial/formheader',['sTitle'=>'Edit Article '.$oItem->getLabel()]) ?>
+<?= $this->partial('partial/formheader',['sTitle'=>'Edit Project '.$oItem->getLabel()]) ?>
 <?= $this->partial('partial/basicform', $aPartialData); ?>

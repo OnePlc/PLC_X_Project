@@ -64,13 +64,6 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 (NULL, 'text', 'Name', 'label', 'project-base', 'project-single', 'col-md-3', '/project/view/##ID##', '', 0, 1, 0, '', '', '');
 
 --
--- Default Widgets
---
-INSERT INTO `core_widget` (`Widget_ID`, `widget_name`, `label`, `permission`) VALUES
-(NULL, 'project_dailystats', 'Project - Daily Stats', 'index-Project\\Controller\\ProjectController'),
-(NULL, 'project_taginfo', 'Project - Tag Info', 'index-Project\\Controller\\ProjectController');
-
---
 -- User XP Activity
 --
 INSERT INTO `user_xp_activity` (`Activity_ID`, `xp_key`, `label`, `xp_base`) VALUES

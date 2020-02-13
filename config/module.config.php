@@ -38,6 +38,20 @@ return [
                     ],
                 ],
             ],
+            'project-setup' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/project/setup[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\InstallController::class,
+                        'action'     => 'checkdb',
+                    ],
+                ],
+            ],
             'project-api' => [
                 'type'    => Segment::class,
                 'options' => [
