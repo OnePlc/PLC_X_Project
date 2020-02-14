@@ -5,9 +5,9 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 (NULL, 'textarea', 'Description', 'description', 'project-base', 'project-single', 'col-md-12', '', '', 0, 1, 0, '', '', ''),
 (NULL, 'select', 'State', 'state_idfs', 'project-base', 'project-single', 'col-md-3', '', '/tag/api/list/project-single/state', 1, 1, 0, 'entitytag-single', 'OnePlace\\Tag\\Model\\EntityTagTable','add-OnePlace\\Project\\Controller\\StateController'),
 (NULL, 'select', 'Customer', 'customer_idfs', 'project-base', 'project-single', 'col-md-3', '', '/contact/api/list/0', 0, 1, 0, 'contact-single', 'OnePlace\\Contact\\Model\\ContactTable','add-OnePlace\\Contact\\Controller\\ContactController'),
-(NULL, 'select', 'Person responsible', 'resposible_idfs', 'project-base', 'project-single', 'col-md-3', '', '/tag/api/list/project-single/responsible', 0, 1, 0, 'entitytag-single', 'OnePlace\\Tag\\Model\\EntityTagTable','add-OnePlace\\Project\\Controller\\PersonResponsibleController'),
+(NULL, 'select', 'Person responsible', 'responsible_idfs', 'project-base', 'project-single', 'col-md-3', '', '/tag/api/list/project-single/responsible', 0, 1, 0, 'entitytag-single', 'OnePlace\\Tag\\Model\\EntityTagTable','add-OnePlace\\Project\\Controller\\PersonResponsibleController'),
 (NULL, 'date', 'planned Release', 'planned_release', 'project-base', 'project-single', 'col-md-2', '', '', 0, 1, 0, '', '', ''),
-(NULL, 'currency', 'Budget', 'budget', 'project-base', 'project-single', 'col-md-1', '', '', 0, 1, 0, '', '', ''),
+(NULL, 'currency', 'Budget', 'budget', 'project-base', 'project-single', 'col-md-3', '', '', 0, 1, 0, '', '', ''),
 (NULL, 'multiselect', 'Categories', 'category_idfs', 'project-base', 'project-single', 'col-md-3', '', '/tag/api/list/project-single/category', 1, 1, 0, 'entitytag-single', 'OnePlace\\Tag\\Model\\EntityTagTable', 'add-OnePlace\\Project\\Controller\\CategoryController'),
 (NULL, 'featuredimage', 'Featured Image', 'featured_image', 'project-base', 'project-single', 'col-md-3', '', '', 0, 1, 0, '', '', '');
 
