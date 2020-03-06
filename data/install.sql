@@ -71,4 +71,9 @@ INSERT INTO `user_xp_activity` (`Activity_ID`, `xp_key`, `label`, `xp_base`) VAL
 (NULL, 'project-edit', 'Edit Project', '5'),
 (NULL, 'project-export', 'Edit Project', '5');
 
+--
+-- module icon
+--
+INSERT INTO `settings` (`settings_key`, `settings_value`) VALUES ('project-icon', 'fas fa-sitemap');
+
 COMMIT;
